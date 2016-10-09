@@ -47,7 +47,13 @@ public class inputManager : MonoBehaviour {
             case TouchPhase.Ended:
                 this.m.setFinalPosition(touchPosition);
                 this.m.log();
+                this.movementDone(this.m);
                 break;
         }
+    }
+
+    private void movementDone(Movement m)
+    {
+
     }
 }
