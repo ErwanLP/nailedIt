@@ -14,13 +14,7 @@ public class Movement  {
 
     public Movement(Vector3 initPosition)
     {
-        this.initPosition = initPosition;
-    }
-
-    public Movement(Vector3 initPosition, Vector3 finalPosition)
-    {
-        this.initPosition = initPosition;
-        this.finalPosition = finalPosition;
+        this.setInitPosition(initPosition);
     }
 
 
@@ -38,7 +32,7 @@ public class Movement  {
 
     public void log()
     {
-        Debug.Log("Spped Y : " + this.getYSpped());
+        Debug.Log("Speed : " + this.getYSpeed());
     }
 
     public float getDeltaTime()
@@ -49,7 +43,7 @@ public class Movement  {
     {
         return this.initPosition - this.finalPosition;
     }
-    public float getYSpped()
+    public float getYSpeed()
     {
         return this.getDeltaPosition().y / this.getDeltaTime();
     }
