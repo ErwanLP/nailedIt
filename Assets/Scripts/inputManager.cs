@@ -4,9 +4,10 @@ using System.Collections;
 public class inputManager : MonoBehaviour {
 
     public Movement m;
+    public GameObject hammer;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
 	
 	}
 
@@ -54,6 +55,6 @@ public class inputManager : MonoBehaviour {
 
     private void movementDone(Movement m)
     {
-
+        hammer.GetComponent<mPhys>().boom(m);
     }
 }

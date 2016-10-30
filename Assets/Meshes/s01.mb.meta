@@ -39,6 +39,7 @@ ModelImporter:
     100062: transform7
     100064: transform8
     100066: transform9
+    100068: pCube16
     400000: pCube1
     400002: pCube10
     400004: pCube11
@@ -73,6 +74,7 @@ ModelImporter:
     400062: transform7
     400064: transform8
     400066: transform9
+    400068: pCube16
     2300000: pCube10
     2300002: pCube11
     2300004: pCube7
@@ -80,6 +82,7 @@ ModelImporter:
     2300008: pCube9
     2300010: pCylinder1
     2300012: pCylinder2
+    2300014: pCube16
     3300000: pCube10
     3300002: pCube11
     3300004: pCube7
@@ -87,6 +90,7 @@ ModelImporter:
     3300008: pCube9
     3300010: pCylinder1
     3300012: pCylinder2
+    3300014: pCube16
     4300000: pCylinder1
     4300002: pCube7
     4300004: pCube8
@@ -94,6 +98,7 @@ ModelImporter:
     4300008: pCube10
     4300010: pCube11
     4300012: pCylinder2
+    4300014: pCube16
     7400000: Take 001
     9500000: //RootNode
   materials:
