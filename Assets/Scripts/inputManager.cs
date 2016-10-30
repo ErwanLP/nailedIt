@@ -1,19 +1,21 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
-public class inputManager : MonoBehaviour {
+public class InputManager {
 
     public Movement m;
-    public GameObject hammer;
+    public Action<Movement> callback;
 
-    // Use this for initialization
-    void Start () {
-	
-	}
+    public InputManager(Action<Movement> callback)
+    {
+        this.callback = callback;
+    }
 
     // Update is called once per frame
-    void Update()
+    public void getInput()
     {
+
         // Handle native touch events
         foreach (Touch touch in Input.touches)
         {
@@ -47,7 +49,6 @@ public class inputManager : MonoBehaviour {
                 break;
             case TouchPhase.Ended:
                 this.m.setFinalPosition(touchPosition);
-                this.m.log();
                 this.movementDone(this.m);
                 break;
         }
@@ -55,6 +56,6 @@ public class inputManager : MonoBehaviour {
 
     private void movementDone(Movement m)
     {
-        hammer.GetComponent<mPhys>().boom(m);
+        this.callback(m);
     }
 }
