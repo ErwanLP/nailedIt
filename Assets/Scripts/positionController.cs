@@ -5,6 +5,8 @@ using System.Collections;
 public class positionController : MonoBehaviour {
 
     public GameObject clou;
+    public GameObject table;
+    public BoxCollider bcTable;
     private bool win = false;
 
     // Use this for initialization
