@@ -19,8 +19,6 @@ public class mPhys : MonoBehaviour {
     
     public void boom (Movement m)
     {
-        Debug.Log("BOOM");
-        m.log();
         float force = m.getYSpeed() * speedtoForce;
         rb.AddForce(transform.right * -force);
     }

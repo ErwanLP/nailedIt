@@ -13,6 +13,15 @@ public class Hammer : MonoBehaviour
         this.hammer.transform.Rotate(0, 0, 85);
     }
 
+
+    public Hammer(string hammerPrefabName)
+    {
+        Object prefab = Resources.Load("Prefabs/" + hammerPrefabName, typeof(GameObject));
+        this.hammer = Instantiate(prefab) as GameObject;
+        this.hammer.transform.position = new Vector3((float)0.6, (float)1.7, (float)-6.7);
+        this.hammer.transform.Rotate(0, 0, 85);
+    }
+
     public GameObject getGameObject()
     {
         return this.hammer;

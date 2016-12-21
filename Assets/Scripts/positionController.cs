@@ -18,7 +18,6 @@ public class positionController : MonoBehaviour {
 	    if (clou.transform.position.y <= 0)
         {
             win = true;
-            Debug.Log(win);
         }
     }
 }
