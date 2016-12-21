@@ -72,9 +72,10 @@ public class gameController : MonoBehaviour {
     {
         while (this.moving)
         {
-            yield return new WaitForSeconds(waitTime);
+            yield return new WaitForSeconds(waitTime);            
             playerList[this.selectedPlayer].getHammer().getGameObject().SetActive(false);
             this.incrementeSelectedGamer();
+            playerList[this.selectedPlayer].getHammer().resetPosition();
             playerList[this.selectedPlayer].getHammer().getGameObject().SetActive(true);
             this.moving = false;
         }
