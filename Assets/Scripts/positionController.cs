@@ -6,8 +6,11 @@ public class positionController : MonoBehaviour {
 
     public GameObject clou;
     public GameObject table;
-    public BoxCollider bcTable;
+    public BoxCollider bc_table;
+    public BoxCollider bc_clou;
+    public Text t_delta;
     private bool win = false;
+    private float delta;
 
     // Use this for initialization
     void Start () {
@@ -15,7 +18,11 @@ public class positionController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	    if (clou.transform.position.y <= 0)
+        delta = (bc_clou.bounds.center.y + bc_clou.bounds.size.y / 2) - (bc_table.bounds.center.y + bc_table.bounds.size.y / 2);
+
+        t_delta.text = "Delta : " +delta;
+
+        if (delta <= 0)
         {
             win = true;
         }
