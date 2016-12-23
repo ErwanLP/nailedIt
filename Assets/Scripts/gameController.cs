@@ -47,6 +47,10 @@ public class gameController : MonoBehaviour {
         {
             Debug.Log("User selected :" + this.selectedPlayer);
             t_speed.text = "Speed : " + m.getYSpeed().ToString();
+            if(m.getYSpeed() == 0)
+            {
+                Debug.Log("Movement null");
+            }
 
             playerList[this.selectedPlayer].getHammer().getGameObject().GetComponent<mPhys>().boom(m);
             this.moving = true;

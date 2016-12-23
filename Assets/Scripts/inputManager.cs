@@ -19,7 +19,7 @@ public class InputManager {
         // Handle native touch events
         foreach (Touch touch in Input.touches)
         {
-            HandleTouch(touch.fingerId, Camera.main.ScreenToWorldPoint(touch.position), touch.phase);
+            HandleTouch(touch.fingerId, touch.position, touch.phase);
         }
 
         // Simulate touch events from mouse events
