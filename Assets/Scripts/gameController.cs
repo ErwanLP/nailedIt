@@ -15,7 +15,7 @@ public class gameController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-
+        new CustomSocket();
         this.numberPlayer = 2;
         this.waitTime = 2.0f;
         Debug.Log("Nomber Player : " + this.numberPlayer);
@@ -55,7 +55,7 @@ public class gameController : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        this.im.getInput();
+        //this.im.getInput();
 
     }
 
