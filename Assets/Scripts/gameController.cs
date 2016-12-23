@@ -15,7 +15,8 @@ public class gameController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        new CustomSocket();
+        CustomSocket cs = new CustomSocket();
+        cs.sendMessage("Mon message");
         this.numberPlayer = 2;
         this.waitTime = 2.0f;
         Debug.Log("Nomber Player : " + this.numberPlayer);
