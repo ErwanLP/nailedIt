@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
+
 
 public class gameController : MonoBehaviour {
 
@@ -10,6 +12,8 @@ public class gameController : MonoBehaviour {
     public bool moving;
     private IEnumerator coroutine;
     public float waitTime;
+    public Text t_speed;
+
 
 
 
@@ -42,6 +46,8 @@ public class gameController : MonoBehaviour {
         if(this.moving == false)
         {
             Debug.Log("User selected :" + this.selectedPlayer);
+            t_speed.text = "Speed : " + m.getYSpeed().ToString();
+
             playerList[this.selectedPlayer].getHammer().getGameObject().GetComponent<mPhys>().boom(m);
             this.moving = true;
             StartCoroutine(WaitMovement( this.waitTime));
@@ -56,7 +62,7 @@ public class gameController : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        //this.im.getInput();
+        this.im.getInput();
 
     }
 
