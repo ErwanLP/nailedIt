@@ -17,6 +17,11 @@ public class Movement  {
         this.setInitPosition(initPosition);
     }
 
+    public override string ToString()
+    {
+        return this.getYSpeed().ToString();
+    }
+
 
     public void setInitPosition(Vector3 initPosition)
     {

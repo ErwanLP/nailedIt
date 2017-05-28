@@ -22,4 +22,11 @@ public class mPhys : MonoBehaviour {
         float force = m.getYSpeed() * speedtoForce;
         rb.AddForce(transform.right * -force /10);
     }
+
+
+    public void boomWithSpeed(float s)
+    {
+        float force = s * speedtoForce;
+        rb.AddForce(transform.right * -force / 10);
+    }
 }
