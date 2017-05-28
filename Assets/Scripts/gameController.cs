@@ -5,108 +5,79 @@ using System.Globalization;
 
 public class gameController : MonoBehaviour {
 
-    public int numberPlayer;
-    public int myId;
-    public Player[] playerList;
-    public InputManager im;
-    public int selectedPlayer;
-    public bool moving;
-    public bool myTurn;
-    private IEnumerator coroutine;
+    // variable 
+    private int playerNumber;
+    private Player[] playerList;
+    private int selectedPlayerIndex;
+    private bool lockInputManager;
+    private bool moving;
     public float waitTime;
-    public Text t_speed;
-    public CustomSocket cs;
+    // class
+    private CustomSocket customSocket;
+    public InputManager inputManager;
+
+
+
+    /*public int myid;
+    public player[] playerlist;
+    public int selectedplayer;
+    public bool moving;
+    public bool myturn;
+    private ienumerator coroutine;
+    ;
+    public text t_speed;
+    */
 
     // Use this for initialization
     void Start () {
-        this.numberPlayer = 2;
+        this.playerNumber = 2;
+        this.selectedPlayerIndex = 0;
+        this.lockInputManager = true;
         this.waitTime = 2.0f;
-        this.myId = (int)Random.Range(0.0f, 1000000.0f);
-        playerList = new Player[this.numberPlayer];
-        for (int i = 0; i < numberPlayer; i++)
+        this.playerList = this.createPlayerList(this.playerNumber);
+        this.localPlayerAction(this.selectedPlayerIndex);
+    }
+
+    // Create List of player
+    private Player[] createPlayerList(int playerNumber)
+    {
+        playerList = new Player[playerNumber];
+        for (int i = 0; i < playerNumber; i++)
         {
             int hammerPrefabName = 1 + i;
             playerList[i] = new Player("m0" + hammerPrefabName.ToString());
             playerList[i].getHammer().getGameObject().SetActive(false);
         }
-
-        this.multiPlayerInit();
+        return playerList;
     }
 
-    private void multiPlayerInit()
-    {
-        this.cs = new CustomSocket();
-        this.cs.setCallbackRoomFound(multiPlayerRoomFound);
-        this.cs.sendMessage("SEARCH_ROOM");
-    }
-
-    private void multiPlayerRoomFound(string[] data)
-    {
-        this.myTurn = data[2] == "first";
-        this.moving = false;
-        if (this.myTurn)
-        {
-            this.selectedPlayer = 0;
-        } else
-        {
-            this.selectedPlayer = 1;
-        }
-        playerList[this.selectedPlayer].getHammer().getGameObject().SetActive(true);
-        this.im = new InputManager(handleMultiPlayerInputManager);
-        this.cs.setCallbackBoom(multiPlayerBoom);
-
-    }
-
-    private void multiPlayerBoom(string[] data)
-    {
-        this.moving = true;
-        float speed = float.Parse(data[3], CultureInfo.InvariantCulture.NumberFormat);
-        playerList[this.selectedPlayer].getHammer().getGameObject().GetComponent<mPhys>().boomWithSpeed(speed);
-        this.myTurn = true;
-        StartCoroutine(WaitMovement(this.waitTime));
-    }
-
-
-
-    private void handleMultiPlayerInputManager(Movement m)
-    {
-        if(this.myTurn && this.moving)
-        {
-            t_speed.text = "Speed : " + m.getYSpeed().ToString();
-            if(m.getYSpeed() == 0)
-            {
-                Debug.Log("Movement null");
-            } else
-            {
-                playerList[this.selectedPlayer].getHammer().getGameObject().GetComponent<mPhys>().boom(m);
-                this.myTurn = false;
-                this.cs.sendMessage("BOOM;1;" + this.myId + ";" + m.getYSpeed());
-                StartCoroutine(WaitMovement(this.waitTime));
-            }
-        }
-        else
-        {
-            Debug.Log("Not allowed");
-        }
-
-    }
 
     // Update is called once per frame
-    void Update () {
-        if(this.im != null)
+    void Update()
+    {
+        if (this.inputManager != null && this.lockInputManager == false)
         {
-            this.im.getInput();
+            this.inputManager.getInput();
         }
-
+        for (int i = 0; i < this.playerNumber; i++)
+        {
+            playerList[i].getHammer().getGameObject().SetActive(i == this.selectedPlayerIndex);
+        }
     }
 
-    private void incrementeSelectedGamer()
+    private void localPlayerAction(int selectedPlayerIndex)
     {
-        this.selectedPlayer++;
-        if(this.selectedPlayer == numberPlayer)
-        {
-            this.selectedPlayer = 0;
-        }
+        this.playerList[selectedPlayerIndex].getHammer().resetPosition();
+        this.inputManager = new InputManager(this.startHammerMovement);
+        this.lockInputManager = false;
+    }
+
+    private void startHammerMovement(Movement m)
+    {
+        this.moving = true;
+        this.lockInputManager = true;
+        playerList[this.selectedPlayerIndex].getHammer().getGameObject().GetComponent<mPhys>().boomWithSpeed(m.getYSpeed());
+        StartCoroutine(WaitMovement(this.waitTime));
     }
 
     private IEnumerator WaitMovement(float waitTime)
@@ -114,16 +85,20 @@ public class gameController : MonoBehaviour {
         while (this.moving)
         {
             yield return new WaitForSeconds(waitTime);            
-            playerList[this.selectedPlayer].getHammer().getGameObject().SetActive(false);
-            this.incrementeSelectedGamer();
-            playerList[this.selectedPlayer].getHammer().resetPosition();
-            playerList[this.selectedPlayer].getHammer().getGameObject().SetActive(true);
+            this.selectedPlayerIndex = this.getNextSelectedPlayerIndex(this.selectedPlayerIndex, this.playerNumber);
             this.moving = false;
+            this.localPlayerAction(this.selectedPlayerIndex);
         }
     }
 
-
-
-
-
+    // Utils
+    private int getNextSelectedPlayerIndex(int oldIndex, int playerNumber)
+    {
+        int newIndex = oldIndex+1;
+        if (newIndex == playerNumber)
+        {
+            newIndex = 0;
+        }
+        return newIndex;
+    }
 }
