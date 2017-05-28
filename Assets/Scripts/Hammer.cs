@@ -36,4 +36,9 @@ public class Hammer : MonoBehaviour
     {
         return this._game_object;
     }
+
+    public string getGameObjectPosition()
+    {
+        return this._game_object.transform.position.ToString();
+    }
 }

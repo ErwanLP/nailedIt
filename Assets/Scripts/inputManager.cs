@@ -15,7 +15,6 @@ public class InputManager {
     // Update is called once per frame
     public void getInput()
     {
-
         // Handle native touch events
         foreach (Touch touch in Input.touches)
         {
