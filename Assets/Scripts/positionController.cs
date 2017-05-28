@@ -39,6 +39,7 @@ public class positionController : MonoBehaviour {
         if (delta <= 0)
         {
             win = true;
+            Debug.Log("WIN");
         }
     }
 }

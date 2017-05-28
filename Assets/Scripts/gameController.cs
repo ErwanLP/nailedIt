@@ -33,7 +33,7 @@ public class gameController : MonoBehaviour {
         this.playerNumber = 2;
         this.selectedPlayerIndex = 0;
         this.lockInputManager = true;
-        this.waitTime = 2.0f;
+        this.waitTime = 0.1f;
         this.playerList = this.createPlayerList(this.playerNumber);
         this.localPlayerAction(this.selectedPlayerIndex);
     }
@@ -72,22 +72,37 @@ public class gameController : MonoBehaviour {
         this.lockInputManager = false;
     }
 
+
     private void startHammerMovement(Movement m)
     {
         this.moving = true;
         this.lockInputManager = true;
         playerList[this.selectedPlayerIndex].getHammer().getGameObject().GetComponent<mPhys>().boomWithSpeed(m.getYSpeed());
-        StartCoroutine(WaitMovement(this.waitTime));
+        StartCoroutine(WaitMovement(this.waitTime, this.afterMovementCallback));
     }
 
-    private IEnumerator WaitMovement(float waitTime)
+    private void afterMovementCallback()
     {
+        this.selectedPlayerIndex = this.getNextSelectedPlayerIndex(this.selectedPlayerIndex, this.playerNumber);
+        this.localPlayerAction(this.selectedPlayerIndex);
+    }
+
+    private IEnumerator WaitMovement(float waitTime, System.Action callback)
+    {
+        Vector3 oldPosition = playerList[selectedPlayerIndex].getHammer().getGameObjectPosition();
         while (this.moving)
         {
-            yield return new WaitForSeconds(waitTime);            
-            this.selectedPlayerIndex = this.getNextSelectedPlayerIndex(this.selectedPlayerIndex, this.playerNumber);
-            this.moving = false;
-            this.localPlayerAction(this.selectedPlayerIndex);
+            yield return new WaitForSeconds(waitTime);
+            Vector3 newPosition = playerList[selectedPlayerIndex].getHammer().getGameObjectPosition();
+            if(oldPosition == newPosition)
+            {
+                this.moving = false;
+                callback();
+            }
+            else
+            {
+                oldPosition = newPosition;
+            }
         }
     }
 
