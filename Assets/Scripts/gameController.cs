@@ -6,6 +6,7 @@ using System.Globalization;
 public class gameController : MonoBehaviour {
 
     // variable 
+    private string gameMode;
     private int playerNumber;
     private Player[] playerList;
     private int selectedPlayerIndex;
@@ -16,18 +17,6 @@ public class gameController : MonoBehaviour {
     private CustomSocket customSocket;
     public InputManager inputManager;
 
-
-
-    /*public int myid;
-    public player[] playerlist;
-    public int selectedplayer;
-    public bool moving;
-    public bool myturn;
-    private ienumerator coroutine;
-    ;
-    public text t_speed;
-    */
-
     // Use this for initialization
     void Start () {
         this.playerNumber = 2;
@@ -35,7 +24,18 @@ public class gameController : MonoBehaviour {
         this.lockInputManager = true;
         this.waitTime = 0.1f;
         this.playerList = this.createPlayerList(this.playerNumber);
-        this.localPlayerAction(this.selectedPlayerIndex);
+
+        switch (PlayerPrefs.GetInt("GameMode"))
+        {
+            case 1:
+                this.gameMode = "Solo";
+                this.localPlayerAction(this.selectedPlayerIndex);
+                break;
+            case 2:
+                this.gameMode = "Multijoueur";
+                break;
+        }
+
     }
 
     // Create List of player
